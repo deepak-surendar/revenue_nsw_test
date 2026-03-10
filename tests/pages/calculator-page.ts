@@ -7,6 +7,9 @@ export class CalculatorPage {
     readonly purchasePriceValue: Locator;
     readonly calculateBtn: Locator;
     readonly calcPopUp: Locator;
+    readonly calcPopUpTitle: Locator;
+    readonly calcPopUpContents: Locator;
+    readonly calcPopUpFooter: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -16,6 +19,9 @@ export class CalculatorPage {
         
         this.calculateBtn = page.getByRole('button', { name: 'Calculate' });
         this.calcPopUp = page.locator('.modal-dialog');
+        this.calcPopUpTitle = page.locator('.modal-title');
+        this.calcPopUpContents = page.locator('.modal-body table tr');
+        this.calcPopUpFooter = page.locator('.modal-footer');
     }
 
     async getPageHeadingText() {
@@ -39,15 +45,15 @@ export class CalculatorPage {
         await this.calcPopUp.waitFor({ state: 'visible' });
     }
 
-    async getCalculatePopUpModalHeader(): Promise<string> {
-        return await this.page.locator('h4.modal-title').textContent() || '';
+    async getCalculatePopUpTitle(): Promise<string> {
+        return await this.calcPopUpTitle.textContent() || '';
     }
 
     async getCalculatePopUpContents(): Promise<string[]> {
-        return await this.page.locator('.modal-body table tr').allTextContents();
+        return await this.calcPopUpContents.allTextContents();
     }
 
     async closeCalculatePopUp() {
-        await this.page.locator('.modal-footer').getByRole('button', { name: 'Close' }).click();
+        await this.calcPopUpFooter.getByRole('button', { name: 'Close' }).click();
     }
 }
