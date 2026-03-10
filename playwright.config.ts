@@ -10,7 +10,6 @@ const testDir = defineBddConfig({
 export default defineConfig({
   testDir,
   reporter: 'html', 
-  // timeout: 60000,
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
     baseURL: 'https://www.service.nsw.gov.au/transaction/check-motor-vehicle-stamp-duty',
@@ -19,6 +18,7 @@ export default defineConfig({
     trace: 'on-first-retry',
     /* Run tests silently without opening browser */
     headless: true,
+    screenshot: 'only-on-failure',
   },
 
   /* Configure projects for major browsers - Chromium */
