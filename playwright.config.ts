@@ -18,7 +18,7 @@ export default defineConfig({
     trace: 'on-first-retry',
     /* Run tests silently without opening browser */
     headless: true,
-    screenshot: 'only-on-failure',
+    screenshot: 'on',
   },
 
   /* Configure projects for major browsers - Chromium */
