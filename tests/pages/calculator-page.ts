@@ -23,10 +23,6 @@ export class CalculatorPage {
         return headingText;
     }
 
-    getPageUrl(): string {
-        return this.page.url();
-    }
-
     async selectYesOption() {
         await this.yesOption.click();
     }
