@@ -18,7 +18,12 @@ export default defineConfig({
     trace: 'on-first-retry',
     /* Run tests silently without opening browser */
     headless: true,
-    screenshot: 'on',
+    
+    screenshot: 'only-on-failure',
+    video: {
+      mode: 'on-first-retry',
+      size: { width: 640, height: 480 }
+    },
   },
 
   /* Configure projects for major browsers - Chromium */

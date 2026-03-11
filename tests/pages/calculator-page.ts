@@ -18,7 +18,9 @@ export class CalculatorPage {
         this.purchasePriceValue = page.locator('#purchasePrice');
         
         this.calculateBtn = page.getByRole('button', { name: 'Calculate' });
-        this.calcPopUp = page.locator('.modal-dialog');
+        this.calcPopUp = page.locator('.modal-dialog .modal-body');
+        // this.calcPopUp = page.locator('h2').getByText('Motor vehicle registration');
+        // this.calcPopUp = page.getByRole('heading', {name: 'Motor vehicle registration' });
         this.calcPopUpTitle = page.locator('.modal-title');
         this.calcPopUpContents = page.locator('.modal-body table tr');
         this.calcPopUpFooter = page.locator('.modal-footer');
@@ -42,11 +44,16 @@ export class CalculatorPage {
     }
 
     async waitForCalculationPopUp() {
-        await this.calcPopUp.waitFor({ state: 'visible' });
+        await this.calcPopUp.waitFor({ state: 'visible', timeout: 90000 });
+    }
+
+    getCalculatePopUpTitleElement(): Locator {
+        // return this.calcPopUpTitle;
+        return this.calcPopUp;
     }
 
     async getCalculatePopUpTitle(): Promise<string> {
-        return await this.calcPopUpTitle.textContent() || '';
+        return await this.calcPopUpTitle.innerText() || '';
     }
 
     async getCalculatePopUpContents(): Promise<string[]> {

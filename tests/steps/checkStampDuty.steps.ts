@@ -33,12 +33,12 @@ When('I enter purchase price as {int}', async ({ page }, amount: number) => {
 
 When('I click on Calculate button', async ({ page }) => {
     await calculatorPage.clickCalculateBtn();
-    await page.screenshot({ path: 'screenshot1.png', fullPage: true });
+    await expect(calculatorPage.getCalculatePopUpTitleElement()).toBeVisible();
 });
 
 Then('I should see the stamp duty values successfully calculated in a popup for purchase price {int}', async ({ page }, amount: number) => {
-    await calculatorPage.waitForCalculationPopUp();
-    await page.screenshot({ path: 'screenshot2.png', fullPage: true });
+    // await calculatorPage.waitForCalculationPopUp();
+    // await expect(calculatorPage.getCalculatePopUpTitleElement()).toBeVisible();
 
     const headerText = await calculatorPage.getCalculatePopUpTitle();
     expect(headerText).toEqual('Calculation');
