@@ -9,7 +9,9 @@ const testDir = defineBddConfig({
 
 export default defineConfig({
   testDir,
-  reporter: 'html', 
+  reporter: 'html',
+  workers: process.env.CI ? 1 : undefined,
+
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
     baseURL: 'https://www.service.nsw.gov.au/transaction/check-motor-vehicle-stamp-duty',
@@ -18,12 +20,7 @@ export default defineConfig({
     trace: 'on-first-retry',
     /* Run tests silently without opening browser */
     headless: true,
-    
-    screenshot: 'only-on-failure',
-    video: {
-      mode: 'on-first-retry',
-      size: { width: 640, height: 480 }
-    },
+    screenshot: 'on',
   },
 
   /* Configure projects for major browsers - Chromium */
