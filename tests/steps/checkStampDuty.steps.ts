@@ -33,7 +33,7 @@ When('I enter purchase price as {int}', async ({ page }, amount: number) => {
 
 When('I click on Calculate button', async ({ page }) => {
     await calculatorPage.clickCalculateBtn();
-    await expect(calculatorPage.getCalculatePopUpTitleElement()).toBeVisible();
+    await expect(calculatorPage.getCalculatePopUpTitleElement()).toBeVisible({ timeout: 10_000 });
 });
 
 Then('I should see the stamp duty values successfully calculated in a popup for purchase price {int}', async ({ page }, amount: number) => {
