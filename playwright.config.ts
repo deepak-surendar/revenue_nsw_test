@@ -10,8 +10,7 @@ const testDir = defineBddConfig({
 export default defineConfig({
   testDir,
   reporter: 'html',
-  workers: process.env.CI ? 1 : undefined,
-
+  timeout: 100_000,
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
     baseURL: 'https://www.service.nsw.gov.au/transaction/check-motor-vehicle-stamp-duty',

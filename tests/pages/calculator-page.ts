@@ -6,24 +6,20 @@ export class CalculatorPage {
     readonly yesOption: Locator;
     readonly purchasePriceValue: Locator;
     readonly calculateBtn: Locator;
-    readonly calcPopUp: Locator;
-    readonly calcPopUpTitle: Locator;
+    readonly calcPopUpHeading: Locator;
     readonly calcPopUpContents: Locator;
-    readonly calcPopUpFooter: Locator;
+    readonly calcPopUpCloseBtn: Locator;
 
     constructor(page: Page) {
         this.page = page;
         this.pageHeading = page.locator('h1#skip');
         this.yesOption = page.locator('label[for="passenger_Y"]');
         this.purchasePriceValue = page.locator('#purchasePrice');
-        
         this.calculateBtn = page.getByRole('button', { name: 'Calculate' });
-        this.calcPopUp = page.locator('.modal-dialog .modal-body');
-        // this.calcPopUp = page.locator('h2').getByText('Motor vehicle registration');
-        // this.calcPopUp = page.getByRole('heading', {name: 'Motor vehicle registration' });
-        this.calcPopUpTitle = page.locator('.modal-title');
-        this.calcPopUpContents = page.locator('.modal-body table tr');
-        this.calcPopUpFooter = page.locator('.modal-footer');
+
+        this.calcPopUpHeading = page.getByRole('heading', { name: 'Motor vehicle registration', exact: true });
+        this.calcPopUpContents = page.locator('table tr');
+        this.calcPopUpCloseBtn = page.getByRole('button', { name: 'Close' }).last();
     }
 
     async getPageHeadingText() {
@@ -43,24 +39,16 @@ export class CalculatorPage {
         await this.calculateBtn.click();
     }
 
-    async waitForCalculationPopUp() {
-        await this.calcPopUp.waitFor({ state: 'visible', timeout: 90000 });
-    }
-
-    getCalculatePopUpTitleElement(): Locator {
-        // return this.calcPopUpTitle;
-        return this.calcPopUp;
-    }
-
-    async getCalculatePopUpTitle(): Promise<string> {
-        return await this.calcPopUpTitle.innerText() || '';
+    getCalculatePopUpHeading(): Locator {
+        return this.calcPopUpHeading;
     }
 
     async getCalculatePopUpContents(): Promise<string[]> {
-        return await this.calcPopUpContents.allTextContents();
+        const tableContent = await this.calcPopUpContents.allTextContents();
+        return tableContent;
     }
 
     async closeCalculatePopUp() {
-        await this.calcPopUpFooter.getByRole('button', { name: 'Close' }).click();
+        await this.calcPopUpCloseBtn.click();
     }
 }

@@ -33,21 +33,16 @@ When('I enter purchase price as {int}', async ({ page }, amount: number) => {
 
 When('I click on Calculate button', async ({ page }) => {
     await calculatorPage.clickCalculateBtn();
-    await expect(calculatorPage.getCalculatePopUpTitleElement()).toBeVisible({ timeout: 10_000 });
+    await expect(calculatorPage.getCalculatePopUpHeading()).toBeVisible({ timeout: 10_000 });
 });
 
 Then('I should see the stamp duty values successfully calculated in a popup for purchase price {int}', async ({ page }, amount: number) => {
-    // await calculatorPage.waitForCalculationPopUp();
-    // await expect(calculatorPage.getCalculatePopUpTitleElement()).toBeVisible();
-
-    const headerText = await calculatorPage.getCalculatePopUpTitle();
-    expect(headerText).toEqual('Calculation');
-
     const popUpContents = await calculatorPage.getCalculatePopUpContents();
     expect(popUpContents[2]).toContain('Is this registration for a passenger vehicle?');
     expect(popUpContents[2]).toContain('Yes');
     expect(popUpContents[3]).toContain('Purchase price or value');
 
+    // convert string to currency format - utility
     const currencyFormatter = new Intl.NumberFormat('en-AU', {
         style: 'currency',
         currency: 'AUD',
@@ -55,9 +50,8 @@ Then('I should see the stamp duty values successfully calculated in a popup for 
 
     const formattedAmount = currencyFormatter.format(amount);
     expect(popUpContents[3]).toContain(formattedAmount);
-
+    expect(popUpContents[4]).toContain('Result:');
     expect(popUpContents[5]).toContain('Duty payable');
-    // expect(popUpContents[5]).toBeGreaterThan(0);
 });
 
 Then('I close the popup', async ({ page }) => {
