@@ -32,8 +32,14 @@ When('I enter purchase price as {int}', async ({ page }, amount: number) => {
 });
 
 When('I click on Calculate button', async ({ page }) => {
+    page.on('dialog', async dialog => {
+        console.log(`Dialog type: ${dialog.type()}`);
+        console.log(`Dialog message: ${dialog.message()}`);
+        await dialog.accept(); // Automatically accepts any dialog that appears
+    });
+
     await calculatorPage.clickCalculateBtn();
-    await expect(calculatorPage.getCalculatePopUpHeading()).toBeVisible({ timeout: 10_000 });
+    await expect(calculatorPage.getCalculatePopUpHeading()).toBeVisible();
 });
 
 Then('I should see the stamp duty values successfully calculated in a popup for purchase price {int}', async ({ page }, amount: number) => {
