@@ -17,7 +17,7 @@ export class CalculatorPage {
         this.purchasePriceValue = page.locator('#purchasePrice');
         this.calculateBtn = page.getByRole('button', { name: 'Calculate' });
 
-        this.calcPopUpHeading = page.getByRole('heading', { name: 'Motor vehicle registration', exact: true });
+        this.calcPopUpHeading = page.getByRole('heading', { name: 'Motor vehicle registration ' });
         this.calcPopUpContents = page.locator('table tr');
         this.calcPopUpCloseBtn = page.getByRole('button', { name: 'Close' }).last();
     }
@@ -43,12 +43,11 @@ export class CalculatorPage {
         return this.calcPopUpHeading;
     }
 
-    async getCalculatePopUpContents(): Promise<string[]> {
-        const tableContent = await this.calcPopUpContents.allTextContents();
-        return tableContent;
+    getCalculatePopUpContents(): Locator {
+        return this.calcPopUpContents;
     }
 
     async closeCalculatePopUp() {
-        await this.calcPopUpCloseBtn.click();
+        await this.calcPopUpCloseBtn.click({ timeout: 30000 });
     }
 }

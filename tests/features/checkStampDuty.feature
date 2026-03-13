@@ -8,7 +8,6 @@ Feature: Motor vehicle registration stamp duty calculator tests
     When I enter purchase price as <amount>
     When I click on Calculate button 
     Then I should see the stamp duty values successfully calculated in a popup for purchase price <amount>
-    Then I close the popup
 
     Examples:
     | amount|

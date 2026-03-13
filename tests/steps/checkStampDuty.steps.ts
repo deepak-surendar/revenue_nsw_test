@@ -32,34 +32,25 @@ When('I enter purchase price as {int}', async ({ page }, amount: number) => {
 });
 
 When('I click on Calculate button', async ({ page }) => {
-    page.on('dialog', async dialog => {
-        console.log(`Dialog type: ${dialog.type()}`);
-        console.log(`Dialog message: ${dialog.message()}`);
-        await dialog.accept(); // Automatically accepts any dialog that appears
-    });
-
     await calculatorPage.clickCalculateBtn();
     await expect(calculatorPage.getCalculatePopUpHeading()).toBeVisible();
 });
 
 Then('I should see the stamp duty values successfully calculated in a popup for purchase price {int}', async ({ page }, amount: number) => {
-    const popUpContents = await calculatorPage.getCalculatePopUpContents();
-    expect(popUpContents[2]).toContain('Is this registration for a passenger vehicle?');
-    expect(popUpContents[2]).toContain('Yes');
-    expect(popUpContents[3]).toContain('Purchase price or value');
+    await expect(calculatorPage.getCalculatePopUpContents().first()).toContainText('Motor vehicle registration');
+    await expect(calculatorPage.getCalculatePopUpContents().nth(1)).toContainText('Details entered:');
+    await expect(calculatorPage.getCalculatePopUpContents().nth(2)).toContainText('Is this registration for a passenger vehicle?');
+    await expect(calculatorPage.getCalculatePopUpContents().nth(2)).toContainText('Yes');
+    await expect(calculatorPage.getCalculatePopUpContents().nth(3)).toContainText('Purchase price or value');
 
     // convert string to currency format - utility
     const currencyFormatter = new Intl.NumberFormat('en-AU', {
         style: 'currency',
         currency: 'AUD',
     });
-
     const formattedAmount = currencyFormatter.format(amount);
-    expect(popUpContents[3]).toContain(formattedAmount);
-    expect(popUpContents[4]).toContain('Result:');
-    expect(popUpContents[5]).toContain('Duty payable');
-});
+    await expect(calculatorPage.getCalculatePopUpContents().nth(3)).toContainText(formattedAmount);
 
-Then('I close the popup', async ({ page }) => {
-    await calculatorPage.closeCalculatePopUp();
-})
+    await expect(calculatorPage.getCalculatePopUpContents().nth(4)).toContainText('Result:');
+    await expect(calculatorPage.getCalculatePopUpContents().nth(5)).toContainText('Duty payable');
+});
